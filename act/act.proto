@@ -1,0 +1,100 @@
+/*
+ * Copyright 2023 Google LLC.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package private_join_and_compute.anonymous_counting_tokens;
+
+import "act/act_v0/act_v0.proto";
+
+option java_multiple_files = true;
+
+// The parameters defining the ACT scheme.
+message SchemeParameters {
+  oneof scheme_parameters_oneof {
+    SchemeParametersV0 scheme_parameters_v0 = 1;
+  }
+}
+
+message ServerParameters {
+  ServerPublicParameters public_parameters = 1;
+  ServerPrivateParameters private_parameters = 2;
+}
+
+// The Server's public parameters for the ACT scheme.
+message ServerPublicParameters {
+  oneof server_public_parameters_oneof {
+    ServerPublicParametersV0 server_public_parameters_v0 = 1;
+  }
+}
+
+// The Server's private parameters for the ACT scheme.
+message ServerPrivateParameters {
+  oneof server_private_parameters_oneof {
+    ServerPrivateParametersV0 server_private_parameters_v0 = 1;
+  }
+}
+
+message ClientParameters {
+  ClientPublicParameters public_parameters = 1;
+  ClientPrivateParameters private_parameters = 2;
+}
+
+// The Client's public parameters for the ACT scheme.
+message ClientPublicParameters {
+  oneof client_public_parameters_oneof {
+    ClientPublicParametersV0 client_public_parameters_v0 = 1;
+  }
+}
+
+// The Client's private parameters for the ACT scheme.
+message ClientPrivateParameters {
+  oneof client_private_parameters_oneof {
+    ClientPrivateParametersV0 client_private_parameters_v0 = 1;
+  }
+}
+
+// The Client's token request. Can correspond to a batch of tokens.
+message TokensRequest {
+  oneof tokens_request_oneof {
+    TokensRequestV0 tokens_request_v0 = 1;
+  }
+}
+
+// Private state corresponding to the Client's token request, needed to recover
+// the tokens from the server's response.
+message TokensRequestPrivateState {
+  oneof tokens_request_private_state_oneof {
+    TokensRequestPrivateStateV0 tokens_request_private_state_v0 = 1;
+  }
+}
+
+// The Server's response to a TokensRequest. Can correspond to a batch of
+// tokens.
+message TokensResponse {
+  oneof tokens_response_oneof {
+    TokensResponseV0 tokens_response_v0 = 1;
+  }
+}
+
+// An actual token recovered from the TokenResponse.
+message Token {
+  // Serialized BigNum corresponding to the nonce for this token.
+  string nonce = 1;
+
+  oneof token_oneof {
+    TokenV0 token_v0 = 2;
+  }
+}
