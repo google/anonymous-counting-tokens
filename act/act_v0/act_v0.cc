@@ -77,6 +77,8 @@ StatusOr<std::unique_ptr<DyVerifiableRandomFunction>> CreateDyVrf(
   dy_vrf_parameters.set_random_oracle_prefix(
       scheme_parameters_v0.random_oracle_prefix());
   dy_vrf_parameters.set_dy_prf_base_g(server_public_parameters_v0.prf_base_g());
+  *dy_vrf_parameters.mutable_pedersen_parameters() =
+      server_public_parameters_v0.pedersen_parameters();
 
   return DyVerifiableRandomFunction::Create(std::move(dy_vrf_parameters), ctx,
                                             ec_group, pedersen);
@@ -846,7 +848,7 @@ StatusOr<std::vector<Token>> AnonymousCountingTokensV0::RecoverTokens(
   for (size_t i = 0; i < messages.size(); ++i) {
     Token token;
     TokenV0* token_v0 = token.mutable_token_v0();
-    token.set_nonce(nonces[i].ToBytes());
+    token.set_nonce_bytes(nonces[i].ToBytes());
     ASSIGN_OR_RETURN(*token_v0->mutable_bb_signature(),
                      signatures[i].ToBytesCompressed());
     tokens.push_back(std::move(token));
@@ -890,10 +892,10 @@ Status AnonymousCountingTokensV0::VerifyToken(
       server_private_parameters_v0.bb_oblivious_signature_private_key().y());
 
   BigNum hashed_message = ctx.RandomOracleSha512(m, ec_group.GetOrder());
-  BigNum nonce = ctx.CreateBigNum(token.nonce());
+  BigNum nonce = ctx.CreateBigNum(token.nonce_bytes());
 
   // Verify that reserializing the nonce comes out to the same value.
-  if (nonce.ToBytes() != token.nonce()) {
+  if (nonce.ToBytes() != token.nonce_bytes()) {
     return absl::InvalidArgumentError(
         "AnonymousCountingTokensV0::VerifyToken: nonce comes out to different "
         "value when serialized and deserialized.");

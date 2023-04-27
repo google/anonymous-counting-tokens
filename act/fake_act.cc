@@ -123,7 +123,8 @@ StatusOr<std::vector<Token>> FakeAnonymousCountingTokens::RecoverTokens(
   result.reserve(messages.size());
   for (size_t i = 0; i < messages.size(); ++i) {
     Token fake_token;
-    fake_token.set_nonce(context.GenerateRandLessThan(nonce_bound).ToBytes());
+    fake_token.set_nonce_bytes(
+        context.GenerateRandLessThan(nonce_bound).ToBytes());
     result.push_back(fake_token);
   }
 

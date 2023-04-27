@@ -34,11 +34,25 @@ const int kDefaultModulusLengthBits = 3072;
 // bits, smaller batch size of 3).
 SchemeParameters ActV0TestSchemeParameters();
 
-// Returns parameters supporting 16 messages in a batch.
+// Returns parameters supporting 16 messages in a batch, with both Pedersen and
+// CS parameters set to 16, and modulus length 3072.
 SchemeParameters ActV0Batch16SchemeParameters();
 
-// Returns parameters supporting 32 messages in a batch.
+// Returns parameters supporting 32 messages in a batch, with both Pedersen and
+// CS parameters set to 32, and modulus length 3072.
 SchemeParameters ActV0Batch32SchemeParameters();
+
+// Returns parameters supporting 32 messages in a batch, with CS vector
+// encryption length set to 2, and modulus length 2048.
+//
+// These parameters are currently the best-optimized for performance.
+SchemeParameters
+ActV0SchemeParametersPedersen32Modulus2048CamenischShoupVector2();
+
+// Returns custom parameters.
+SchemeParameters ActV0SchemeParameters(int pedersen_batch_size,
+                                       int modulus_length_bits,
+                                       int camenisch_shoup_vector_length);
 
 }  // namespace anonymous_counting_tokens
 }  // namespace private_join_and_compute

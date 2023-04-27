@@ -677,7 +677,8 @@ TEST_F(AnonymousCountingTokensV0Test, TokensHaveUniqueNonces) {
   std::vector<std::string> messages = {"message_1", "message_2"};
   ASSERT_OK_AND_ASSIGN(Transcript transcript, GenerateTranscript(messages));
 
-  EXPECT_NE(transcript.tokens[0].nonce(), transcript.tokens[1].nonce());
+  EXPECT_NE(transcript.tokens[0].nonce_bytes(),
+            transcript.tokens[1].nonce_bytes());
 }
 
 }  // namespace

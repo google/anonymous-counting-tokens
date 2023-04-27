@@ -91,10 +91,12 @@ message TokensResponse {
 
 // An actual token recovered from the TokenResponse.
 message Token {
-  // Serialized BigNum corresponding to the nonce for this token.
-  string nonce = 1;
+  reserved 1;
 
   oneof token_oneof {
     TokenV0 token_v0 = 2;
   }
+
+  // Serialized BigNum corresponding to the nonce for this token.
+  bytes nonce_bytes = 3;
 }

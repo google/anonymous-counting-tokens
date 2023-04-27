@@ -80,5 +80,42 @@ SchemeParameters ActV0Batch32SchemeParameters() {
   return scheme_parameters;
 }
 
+// Returns parameters supporting 32 messages in a batch, with CS vector
+// encryption length set to 2, and modulus length 2048.
+SchemeParameters
+ActV0SchemeParametersPedersen32Modulus2048CamenischShoupVector2() {
+  int pedersen_batch_size = 32;
+  int modulus_length = 2048;
+  int camensich_shoup_vector_encryption_length = 2;
+
+  return ActV0SchemeParameters(pedersen_batch_size, modulus_length,
+                               camensich_shoup_vector_encryption_length);
+}
+
+// Returns custom parameters.
+SchemeParameters ActV0SchemeParameters(int pedersen_batch_size,
+                                       int modulus_length_bits,
+                                       int camenisch_shoup_vector_length) {
+  std::string random_oracle_prefix = absl::StrCat(
+      "ActV0SchemeParametersPedersenBatchSize", pedersen_batch_size,
+      "ModulusLengthBits", modulus_length_bits, "CamenischShoupVectorLength",
+      camenisch_shoup_vector_length);
+
+  SchemeParameters scheme_parameters;
+  SchemeParametersV0* scheme_parameters_v0 =
+      scheme_parameters.mutable_scheme_parameters_v0();
+  scheme_parameters_v0->set_security_parameter(kDefaultSecurityParameter);
+  scheme_parameters_v0->set_challenge_length_bits(kDefaultChallengeLength);
+  scheme_parameters_v0->set_modulus_length_bits(modulus_length_bits);
+  scheme_parameters_v0->set_camenisch_shoup_s(kDefaultCamenischShoupS);
+  scheme_parameters_v0->set_vector_encryption_length(
+      camenisch_shoup_vector_length);
+  scheme_parameters_v0->set_pedersen_batch_size(pedersen_batch_size);
+  scheme_parameters_v0->set_prf_ec_group(kDefaultCurveId);
+  scheme_parameters_v0->set_random_oracle_prefix(random_oracle_prefix);
+
+  return scheme_parameters;
+}
+
 }  // namespace anonymous_counting_tokens
 }  // namespace private_join_and_compute
