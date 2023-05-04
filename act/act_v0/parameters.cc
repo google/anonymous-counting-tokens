@@ -17,6 +17,7 @@
 
 #include <string>
 
+#include "absl/strings/str_cat.h"
 #include "act/act_v0/act_v0.pb.h"
 
 namespace private_join_and_compute {

@@ -87,7 +87,8 @@ cc_library(
     deps = [
         ":act_v0_cc_proto",
         "//act:act_cc_proto",
-        "@private_join_and_compute//private_join_and_compute/crypto:ec_util",
+        "@com_google_absl//absl/strings",
+        "@private_join_and_compute//private_join_and_compute/crypto:openssl_includes",
     ],
 )
 

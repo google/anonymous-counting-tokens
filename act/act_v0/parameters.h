@@ -19,7 +19,7 @@
 #include <string>
 
 #include "act/act.pb.h"
-#include "private_join_and_compute/crypto/ec_group.h"
+#include "private_join_and_compute/crypto/openssl.inc"
 
 namespace private_join_and_compute {
 namespace anonymous_counting_tokens {
