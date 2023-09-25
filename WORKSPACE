@@ -20,9 +20,9 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 # Private Join and Compute
 http_archive(
     name = "private_join_and_compute",
-    sha256 = "6026c6522b0119e48b697492d184ee60be97071344c2788095fcb2a489ad905f",
-    strip_prefix = "private-join-and-compute-e028e59420a9c36328705ed5064408de03d229a8",
-    urls = ["https://github.com/google/private-join-and-compute/archive/e028e59420a9c36328705ed5064408de03d229a8.zip"],
+    sha256 = "9304a6fe62c7227657e7cecf08c6234c14dfb558bd6a2fa778de845056fb9dd3",
+    strip_prefix = "private-join-and-compute-f77f26fab7f37e5e1e2d43250662c0281bd7fa4a",
+    urls = ["https://github.com/google/private-join-and-compute/archive/f77f26fab7f37e5e1e2d43250662c0281bd7fa4a.zip"],
 )
 
 # loads boringssl, absl, googletest, protobuf.

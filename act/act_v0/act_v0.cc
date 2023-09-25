@@ -110,28 +110,15 @@ StatusOr<std::vector<BigNum>> GetNoncesForTokenRequest(
           challenge_sos.get());
   challenge_cos->SetSerializationDeterministic(true);
   challenge_cos->WriteVarint64(scheme_parameters.ByteSizeLong());
-  if (!scheme_parameters.SerializeToCodedStream(challenge_cos.get())) {
-    return absl::InternalError(
-        "GetNoncesForTokenRequest: Failed to serialize scheme_parameters.");
-  }
+  challenge_cos->WriteString(SerializeAsStringInOrder(scheme_parameters));
   challenge_cos->WriteVarint64(server_public_parameters.ByteSizeLong());
-  if (!server_public_parameters.SerializeToCodedStream(challenge_cos.get())) {
-    return absl::InternalError(
-        "GetNoncesForTokenRequest: Failed to serialize "
-        "server_public_parameters.");
-  }
+  challenge_cos->WriteString(
+      SerializeAsStringInOrder(server_public_parameters));
   challenge_cos->WriteVarint64(client_public_parameters.ByteSizeLong());
-  if (!client_public_parameters.SerializeToCodedStream(challenge_cos.get())) {
-    return absl::InternalError(
-        "GetNoncesForTokenRequest: Failed to serialize "
-        "client_public_parameters.");
-  }
+  challenge_cos->WriteString(
+      SerializeAsStringInOrder(client_public_parameters));
   challenge_cos->WriteVarint64(tokens_request_part_1.ByteSizeLong());
-  if (!tokens_request_part_1.SerializeToCodedStream(challenge_cos.get())) {
-    return absl::InternalError(
-        "GetNoncesForTokenRequest: Failed to serialize "
-        "client_public_parameters.");
-  }
+  challenge_cos->WriteString(SerializeAsStringInOrder(tokens_request_part_1));
   challenge_cos->WriteVarint64(num_messages);
 
   // Delete the serialization objects to make sure they clean up and write.
